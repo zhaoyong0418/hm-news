@@ -1,13 +1,23 @@
 <template>
-  <div>我是注册组件</div>
+  <div class="register">
+    <hm-header>注册</hm-header>
+    <hm-logo></hm-logo>
+    <hm-button @click = "fn">注册</hm-button>
+  </div>
 </template>
 
 <script>
 export default {
-
-}
+  methods:{
+    fn(){
+      console.log('我注册了')
+    }
+  }
+};  
 </script>
 
-<style>
-
+<style scoped>
+span{
+  color:red
+}
 </style>
