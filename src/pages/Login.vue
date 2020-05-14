@@ -8,8 +8,16 @@
       v-model="username"
       message="用户名错误"
       :rule="/^1\d{4,10}$/"
+      ref="username"
     ></hm-input>
-    <hm-input type="text" placeholder="请输入密码" v-model="password"></hm-input>
+    <hm-input
+      type="text"
+      placeholder="请输入密码"
+      v-model="password"
+      :rule="/^\d{3,12}$/"
+      message="密码格式不正确"
+      ref="password"
+    ></hm-input>
     <hm-button @click="fn">登陆</hm-button>
   </div>
 </template>
@@ -24,6 +32,11 @@ export default {
   },
   methods: {
     fn() {
+      const result1 = this.$refs.username.validate(this.username)
+      const result2 = this.$refs.password.validate(this.password)
+      if (!result1 || !result2) {
+        return
+      }
       this.$axios({
         method: 'post',
         url: 'http://localhost:3000/login',
@@ -34,9 +47,10 @@ export default {
       }).then(res => {
         console.log(res.data)
         if (res.data.statusCode === 200) {
+          this.$toast.success('登陆成功')
           this.$router.push('./user')
         } else {
-          alert('用户名或密码错误')
+          this.$toast.fail('登陆失败')
         }
       })
     }

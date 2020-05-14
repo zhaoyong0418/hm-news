@@ -5,7 +5,7 @@
       :placeholder="placeholder"
       :value="value"
       @input="inputFn"
-      :class="{sucess:status==='sucess',error:status==='error'}"
+      :class="{success:status==='success',error:status==='error'}"
     />
     <div class="tips" v-show="status==='error'">{{message}}</div>
   </div>
@@ -35,15 +35,21 @@ export default {
     }
   },
   methods: {
-    inputFn(e) {
-      this.$emit('input', e.target.value)
+    validate(value) {
       if (this.rule) {
-        if (this.rule.test(e.target.value)) {
-          this.status = 'sucess'
+        if (this.rule.test(value)) {
+          this.status = 'success'
+          return true
         } else {
           this.status = 'error'
+          return false
         }
       }
+    },
+    inputFn(e) {
+      let value = e.target.value
+      this.$emit('input', value)
+      this.validate(value)
     }
   }
 }

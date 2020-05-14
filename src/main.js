@@ -9,6 +9,8 @@ import HmLogo from './components/HmLogo'
 import HmButton from './components/HmButton'
 import HmInput from './components/HmInput'
 import axios from 'axios'
+import { Toast } from 'vant'
+Vue.use(Toast)
 
 Vue.component('hm-input', HmInput)
 Vue.component('hm-header', HmHeader)
