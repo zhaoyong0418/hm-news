@@ -22,12 +22,10 @@ export default {
     rule: RegExp,
     message: String,
     value: {
-      type: String,
-      default: 'text'
+      type: String
     },
     type: {
-      type: String,
-      default: 'text'
+      type: String
     },
     placeholder: {
       type: String,

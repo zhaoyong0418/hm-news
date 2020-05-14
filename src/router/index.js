@@ -17,13 +17,16 @@ const router = new VueRouter({
         },
         {
             path: '/login',
+            name: 'login',
             component: Login
         },
         {
+            name: 'register',
             path: '/register',
             component: Register
         },
         {
+            name: 'user',
             path: '/user',
             component: User
         },
