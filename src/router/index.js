@@ -5,6 +5,7 @@ import VueRouter from 'vue-router'
 import Login from '../pages/Login.vue'
 import Register from '../pages/Register.vue'
 import User from '../pages/User.vue'
+import edit from '../pages/edit.vue'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const router = new VueRouter({
             component: Login
         },
         {
+            path: '/edit',
+            name: 'edit',
+            component: edit
+        },
+        {
             name: 'register',
             path: '/register',
             component: Register
@@ -31,6 +37,19 @@ const router = new VueRouter({
             component: User
         },
     ]
+})
+router.beforeEach(function (to, from, next) {
+    const token = localStorage.getItem('token')
+    const authUrl = ['/user', '/edit']
+    if (authUrl.includes(to.path)) {
+        if (token) {
+            next()
+        } else {
+            next('/login')
+        }
+    } else {
+        next()
+    }
 })
 
 export default router

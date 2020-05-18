@@ -53,12 +53,14 @@ export default {
           password: this.password
         }
       }).then(res => {
-        console.log(res.data)
+        const { data, message, statusCode } = res.data
         if (res.data.statusCode === 200) {
-          this.$toast.success('登陆成功')
+          this.$toast.success(message)
+          localStorage.setItem('token', data.token)
+          localStorage.setItem('user_id', data.user.id)
           this.$router.push('./user')
         } else {
-          this.$toast.fail('登陆失败')
+          this.$toast.fail(message)
         }
       })
     }
