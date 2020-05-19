@@ -39,30 +39,29 @@ export default {
     this.password = this.$route.params.password
   },
   methods: {
-    fn() {
+    async fn() {
       const result1 = this.$refs.username.validate(this.username)
       const result2 = this.$refs.password.validate(this.password)
       if (!result1 || !result2) {
         return
       }
-      this.$axios({
+      const res = await this.$axios({
         method: 'post',
         url: 'http://localhost:3000/login',
         data: {
           username: this.username,
           password: this.password
         }
-      }).then(res => {
-        const { data, message, statusCode } = res.data
-        if (res.data.statusCode === 200) {
-          this.$toast.success(message)
-          localStorage.setItem('token', data.token)
-          localStorage.setItem('user_id', data.user.id)
-          this.$router.push('./user')
-        } else {
-          this.$toast.fail(message)
-        }
       })
+      const { data, message, statusCode } = res.data
+      if (res.data.statusCode === 200) {
+        this.$toast.success(message)
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user_id', data.user.id)
+        this.$router.push('./user')
+      } else {
+        this.$toast.fail(message)
+      }
     }
   }
 }

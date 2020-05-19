@@ -9,7 +9,7 @@ import HmLogo from './components/HmLogo'
 import HmButton from './components/HmButton'
 import HmInput from './components/HmInput'
 import axios from 'axios'
-import { Toast, Dialog, Button, Field, Radio, RadioGroup, Cell, CellGroup, Uploader } from 'vant'
+import { Toast, Dialog, Button, Field, Radio, RadioGroup, Cell, CellGroup, Uploader, List } from 'vant'
 import HmNavbar from './components/HmNavbar.vue'
 import moment from 'moment'
 Vue.use(Toast)
@@ -21,14 +21,15 @@ Vue.use(Cell)
 Vue.use(CellGroup)
 Vue.use(Uploader)
 Vue.use(Button)
+Vue.use(List)
 
 Vue.component('hm-input', HmInput)
 Vue.component('hm-header', HmHeader)
 Vue.component('hm-logo', HmLogo)
 Vue.component('hm-button', HmButton)
 Vue.component('hm-navbar', HmNavbar)
-Vue.filter('date', function (input) {
-  return moment(input).format('YYYY-MM-DD')
+Vue.filter('date', function (input, format = 'YYYY-MM-DD') {
+  return moment(input).format(format)
 })
 
 Vue.config.productionTip = false

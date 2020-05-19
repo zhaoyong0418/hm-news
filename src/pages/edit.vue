@@ -70,23 +70,22 @@ export default {
       this.img = ''
     },
     crop() {
-      this.$refs.cropper.getCropBlob(data => {
+      this.$refs.cropper.getCropBlob(async data => {
         const fd = new FormData()
         fd.append('file', data)
-        this.$axios({
+        const res = await this.$axios({
           method: 'post',
           url: '/upload',
           data: fd
-        }).then(res => {
-          const { statusCode, data } = res.data
-          if (statusCode === 200) {
-            this.showCropper = false
-            this.img = ''
-            this.editUser({
-              head_img: data.url
-            })
-          }
         })
+        const { statusCode, data: data1 } = res.data
+        if (statusCode === 200) {
+          this.showCropper = false
+          this.img = ''
+          this.editUser({
+            head_img: data1.url
+          })
+        }
       })
     },
     beforeRead(file) {
@@ -121,33 +120,31 @@ export default {
         password: this.password
       })
     },
-    editUser(data) {
+    async editUser(data) {
       const user_id = localStorage.getItem('user_id')
       const token = localStorage.getItem('token')
-      this.$axios({
+      const res = await this.$axios({
         method: 'post',
         url: `/user_update/${user_id}`,
         data: data
-      }).then(res => {
-        const { statusCode, message } = res.data
-        if (statusCode === 200) {
-          this.getInfo()
-          this.$toast.success(message)
-        }
       })
+      const { statusCode, message } = res.data
+      if (statusCode === 200) {
+        this.getInfo()
+        this.$toast.success(message)
+      }
     },
-    getInfo() {
+    async getInfo() {
       const user_id = localStorage.getItem('user_id')
       const token = localStorage.getItem('token')
-      this.$axios({
+      const res = await this.$axios({
         method: 'get',
         url: `/user/${user_id}`
-      }).then(res => {
-        const { statusCode, data } = res.data
-        if (statusCode === 200) {
-          this.info = data
-        }
       })
+      const { statusCode, data } = res.data
+      if (statusCode === 200) {
+        this.info = data
+      }
     },
     showNickname() {
       this.show = true
